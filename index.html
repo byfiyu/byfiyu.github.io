@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio Karya</title>
+    <title>Portofolio Karya - @byfiyu</title>
     <style>
-        /* Pengaturan Font dan Latar Belakang */
+        /* CSS Dasar & Reset */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #fafafa;
@@ -19,7 +19,7 @@
             padding: 30px 20px;
         }
 
-        /* Bagian Header / Profil ala Instagram */
+        /* Header Profil Bergaya Instagram */
         .profile-header {
             display: flex;
             align-items: center;
@@ -32,7 +32,7 @@
             background-color: #ddd;
             margin-right: 50px;
             object-fit: cover;
-            /* Proteksi foto profil */
+            /* Proteksi Foto Profil */
             pointer-events: none;
             -webkit-user-drag: none;
         }
@@ -51,52 +51,117 @@
             font-weight: bold;
         }
         
-        /* Grid Galeri (3 Kolom) */
+        /* Grid Galeri (3 Kolom Desktop, 3 Kolom Rapat di HP) */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 28px;
         }
-        /* Penyesuaian untuk layar HP */
         @media (max-width: 768px) {
-            .gallery-grid {
-                gap: 3px;
-            }
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            .profile-pic {
-                margin: 0 auto 20px auto;
-                width: 100px;
-                height: 100px;
-            }
+            .gallery-grid { gap: 3px; }
+            .profile-header { flex-direction: column; text-align: center; }
+            .profile-pic { margin: 0 auto 20px auto; width: 100px; height: 100px; }
         }
         
-        /* Pengaturan Tiap Kotak Gambar */
         .gallery-item {
             position: relative;
             width: 100%;
-            padding-bottom: 100%; /* Memaksa bentuk kotak sempurna rasio 1:1 */
+            padding-bottom: 100%; /* Rasio Persegi 1:1 */
             background-color: #efefef;
+            cursor: pointer;
+            overflow: hidden;
         }
         .gallery-item img {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Gambar akan terpotong rapi memenuhi kotak */
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease;
             
-            /* -- KODE PROTEKSI GAMBAR UTAMA -- */
+            /* Proteksi Gambar di Grid */
             -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
             user-drag: none;
-            -webkit-touch-callout: none; /* Mati di iOS */
-            pointer-events: none; /* Mencegah klik dan tekan-tahan */
+            -webkit-touch-callout: none;
         }
+        .gallery-item:hover img {
+            transform: scale(1.03); /* Efek perbesaran halus saat kursor di atasnya */
+        }
+
+        /* Pop-up Modal (Lightbox & Deskripsi) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-container {
+            background: #fff;
+            max-width: 800px;
+            width: 90%;
+            max-height: 85vh;
+            border-radius: 8px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        @media (max-width: 700px) {
+            .modal-container {
+                flex-direction: column;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+        }
+        .modal-image-box {
+            background: #000;
+            flex: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .modal-image-box img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            /* Proteksi Gambar Pop-up */
+            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+        .modal-info-box {
+            flex: 1;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .modal-title {
+            font-size: 22px;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        .modal-desc {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #444;
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #888;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .close-btn:hover { color: #000; }
     </style>
 </head>
 <body>
@@ -104,17 +169,14 @@
     <div class="container">
         <!-- BAGIAN PROFIL -->
         <div class="profile-header">
-            <!-- Ubah "foto-profil.jpg" dengan nama file foto Anda -->
+            <!-- Ubah 'foto-profil.jpg' dengan nama file foto profil Anda -->
             <img src="foto-profil.jpg" alt="Foto Profil" class="profile-pic">
-            
             <div class="profile-info">
-                <!-- Ubah dengan nama pengguna (username) Anda -->
-                <h1>@kreator_visual</h1>
+                <h1>@byfiyu</h1>
                 <div class="profile-bio">
-                    <strong>Nama Anda</strong><br>
-                    Digital Artist | Character Designer <br>
-                    Eksplorasi visual Komodore Kipasu & artwork ROCKFESTiVA.<br>
-                    <a href="https://instagram.com/akunanda">Hubungi Saya</a>
+                    <strong>Portofolio Karya</strong><br>
+                    Kumpulan ilustrasi visual & proyek kreatif.<br>
+                    <a href="https://instagram.com/byfiyu" target="_blank">Hubungi Saya</a>
                 </div>
             </div>
         </div>
@@ -123,53 +185,52 @@
         <div class="gallery-grid">
             
             <!-- Karya 1 -->
-            <div class="gallery-item">
-                <img src="karya1.jpg" alt="Artwork 1">
+            <div class="gallery-item" 
+                 data-title="Komodore Kipasu" 
+                 data-desc="Desain karakter orisinal Komodore Kipasu. Dibuat menggunakan CorelDRAW dengan sentuhan warna dinamis.">
+                <img src="karya1.jpg" alt="Komodore Kipasu">
             </div>
             
             <!-- Karya 2 -->
-            <div class="gallery-item">
-                <img src="karya2.jpg" alt="Artwork 2">
+            <div class="gallery-item" 
+                 data-title="Logo ROCKFESTiVA" 
+                 data-desc="Eksplorasi visual logo dan identitas untuk proyek ROCKFESTiVA, menggabungkan elemen musik rock dan instrumen tradisional.">
+                <img src="karya2.jpg" alt="ROCKFESTiVA Logo">
             </div>
-            
+
             <!-- Karya 3 -->
-            <div class="gallery-item">
-                <img src="karya3.jpg" alt="Artwork 3">
+            <div class="gallery-item" 
+                 data-title="Sketsa Karakter" 
+                 data-desc="Studi karakter menggunakan media pensil warna sebelum dipindahkan ke format digital.">
+                <img src="karya3.jpg" alt="Sketsa Karakter">
             </div>
 
-            <!-- Karya 4 -->
-            <div class="gallery-item">
-                <img src="karya4.jpg" alt="Artwork 4">
-            </div>
-
-            <!-- Karya 5 -->
-            <div class="gallery-item">
-                <img src="karya5.jpg" alt="Artwork 5">
-            </div>
-
-            <!-- Karya 6 -->
-            <div class="gallery-item">
-                <img src="karya6.jpg" alt="Artwork 6">
-            </div>
-            
-            <!-- Anda bisa menambah "gallery-item" lagi ke bawah jika karyanya banyak -->
+            <!-- Salin & tempel blok <div class="gallery-item"> ... </div> di atas jika ingin menambah karya baru -->
 
         </div>
     </div>
 
-    <!-- SCRIPT PROTEKSI TAMBAHAN -->
-    <script>
-        // 1. Mematikan klik kanan (Context Menu)
-        document.addEventListener('contextmenu', event => event.preventDefault());
+    <!-- TAMPILAN POP-UP (MODAL) -->
+    <div id="imageModal" class="modal">
+        <div class="modal-container">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-image-box">
+                <img id="modalImg" src="" alt="Detail Gambar">
+            </div>
+            <div class="modal-info-box">
+                <h3 id="modalTitle" class="modal-title"></h3>
+                <p id="modalDesc" class="modal-desc"></p>
+            </div>
+        </div>
+    </div>
 
-        // 2. Mematikan tombol pintasan untuk intip kode (Opsional tapi disarankan)
-        document.onkeydown = function(e) {
-            if(event.keyCode == 123) { return false; } // Mencegah tombol F12
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U (View Source)
-        }
-    </script>
-</body>
-</html>
+    <!-- SCRIPT POP-UP & PROTEKSI GAMBAR -->
+    <script>
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+
+        // Buka Pop-up saat gambar diklik
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
